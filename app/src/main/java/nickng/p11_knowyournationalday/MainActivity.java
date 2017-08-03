@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -75,8 +77,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        builder.setCancelable(false);
         AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -123,7 +126,62 @@ public class MainActivity extends AppCompatActivity {
                     });
 
             AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
+
+        } else if(item.getItemId() == R.id.quiz) {
+            LayoutInflater inflater = (LayoutInflater)
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final LinearLayout passPhrase =
+                    (LinearLayout) inflater.inflate(R.layout.quiz, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Test Yourself!")
+                    .setView(passPhrase)
+                    .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    })
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            RadioGroup rg1 = (RadioGroup)passPhrase.findViewById(R. id. rg1);
+                            RadioGroup rg2 = (RadioGroup)passPhrase.findViewById(R. id. rg2);
+                            RadioGroup rg3 = (RadioGroup)passPhrase.findViewById(R. id. rg3);
+
+                            int first = rg1.getCheckedRadioButtonId();
+                            int second = rg2.getCheckedRadioButtonId();
+                            int third = rg3.getCheckedRadioButtonId();
+
+                            RadioButton rb1 = (RadioButton)passPhrase.findViewById(first);
+                            RadioButton rb2 = (RadioButton)passPhrase.findViewById(second);
+                            RadioButton rb3 = (RadioButton)passPhrase.findViewById(third);
+                            int score = 0;
+                            if (rb1.getText().toString().equalsIgnoreCase("No")) {
+                                score += 1;
+                            } else {
+                            }
+                            if (rb2.getText().toString().equalsIgnoreCase("Yes")) {
+                                score += 1;
+                            } else {
+                            }
+                            if (rb3.getText().toString().equalsIgnoreCase("Yes")) {
+                                score += 1;
+                            } else {
+                            }
+                            Toast.makeText(MainActivity.this, "Score " + score,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.setCancelable(false);
+            alertDialog.setCanceledOnTouchOutside(false);
+
         } else if(item.getItemId() == R.id.quit) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Quit?")
@@ -141,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
                     });
 
             AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
 
